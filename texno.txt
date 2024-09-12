@@ -1,0 +1,18 @@
+---------{ Backend }-------------
+Node.js
+Express
+Bcrypt
+
+---------{ DataBase }-------------
+PostgresSQL
+Sequelize - ORM для реляционных баз данных на node js
+
+---------{ Frontend }-------------
+React JS
+React Bootstrap - графика
+Axios - запросы к серверу
+React-router-dom v6 - навигация
+MobX - стейт менеджер
+
+---------{ Auth }-------------
+JWT - json web token (авторизация)
