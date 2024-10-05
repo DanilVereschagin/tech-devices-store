@@ -1,7 +1,12 @@
 import React from 'react';
+import BasketList from '../components/basket/BasketList';
 
 const Basket = () => {
-	return <div>Basket</div>;
+	return (
+		<>
+			<BasketList />
+		</>
+	);
 };
 
 export default Basket;

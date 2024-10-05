@@ -5,7 +5,12 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import classes from './NavBar.module.css';
 import { observer } from 'mobx-react-lite';
-import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../../utils/consts';
+import {
+	ADMIN_ROUTE,
+	BASKET_ROUTE,
+	LOGIN_ROUTE,
+	SHOP_ROUTE,
+} from '../../utils/consts';
 
 const NavBar = observer(() => {
 	const { user } = useContext(Context);
@@ -29,20 +34,36 @@ const NavBar = observer(() => {
 						Tech Devices
 					</NavLink>
 					{user.isAuth ? (
-						<Nav style={{ color: 'white' }}>
-							{user.user.role === 'ADMIN' && (
+						<div className='d-flex'>
+							<Nav style={{ color: 'white' }}>
 								<Button
-									onClick={() => navigate(ADMIN_ROUTE)}
+									onClick={() => navigate(BASKET_ROUTE)}
 									variant='outline-light'
+									className='ms-2'
 								>
-									Админ панель
+									Корзина
 								</Button>
-							)}
+							</Nav>
+							<Nav style={{ color: 'white' }}>
+								{user.user.role === 'ADMIN' && (
+									<Button
+										onClick={() => navigate(ADMIN_ROUTE)}
+										variant='outline-light'
+										className='ms-2'
+									>
+										Админ панель
+									</Button>
+								)}
 
-							<Button onClick={logout} variant='outline-light' className='ms-2'>
-								Выйти
-							</Button>
-						</Nav>
+								<Button
+									onClick={logout}
+									variant='outline-light'
+									className='ms-2'
+								>
+									Выйти
+								</Button>
+							</Nav>
+						</div>
 					) : (
 						<Nav style={{ color: 'white' }}>
 							<Button variant='outline-light' onClick={auth}>

@@ -18,7 +18,7 @@ class BasketController {
 	}
 
 	async getAllByUser(req, res, next) {
-		const { deviceId, userId } = req.query;
+		const { userId } = req.query;
 
 		const basket = await Basket.findOne({ where: { userId } });
 

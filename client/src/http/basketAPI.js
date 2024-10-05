@@ -12,11 +12,12 @@ export const checkDeviceInBasket = async (deviceId, userId) => {
 };
 
 export const fetchBasketByUser = async (userId) => {
-	const { data } = await $host.get('api/basket/fetch', {
+	const { data } = await $authHost.get('api/basket/fetch', {
 		params: {
 			userId,
 		},
 	});
+
 	return data;
 };
 

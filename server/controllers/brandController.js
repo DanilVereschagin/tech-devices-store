@@ -14,8 +14,14 @@ class BrandController {
 	}
 
 	async getById(req, res) {
-		const { id } = req.params;
+		const { id } = req.query;
+
+		if (!id) {
+			return res.json('');
+		}
+
 		const brand = await Brand.findOne({ where: { id } });
+
 		return res.json(brand);
 	}
 }

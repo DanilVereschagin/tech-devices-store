@@ -21,7 +21,11 @@ export const fetchBrands = async () => {
 };
 
 export const fetchBrandById = async (id) => {
-	const { data } = await $host.get('api/brand/' + id);
+	const { data } = await $host.get('api/brand/id', {
+		params: {
+			id,
+		},
+	});
 	return data;
 };
 
@@ -60,6 +64,10 @@ export const fetchRatingByUserAndDevice = async (userId, deviceId) => {
 			deviceId,
 		},
 	});
+
+	if (!data) {
+		return 0;
+	}
 
 	return data.rate;
 };

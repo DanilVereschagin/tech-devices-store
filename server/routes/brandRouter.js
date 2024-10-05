@@ -6,6 +6,6 @@ const router = new Router();
 
 router.post('/', checkRoleMiddleware('ADMIN'), BrandController.create);
 router.get('/', BrandController.getAll);
-router.get('/:id', BrandController.getById);
+router.get('/id', BrandController.getById);
 
 module.exports = router;
