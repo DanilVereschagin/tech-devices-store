@@ -15,6 +15,11 @@ import {
 	fetchDeviceById,
 	fetchRatingByUserAndDevice,
 } from '../http/deviceAPI';
+import {
+	addDeviceToBasket,
+	deleteDeviceFromBasket,
+	checkDeviceInBasket,
+} from '../http/basketAPI';
 import { useParams } from 'react-router-dom';
 import { Context } from '../index';
 
@@ -22,6 +27,7 @@ const DevicePage = () => {
 	const { user } = useContext(Context);
 	const [device, setDevice] = useState({ info: [] });
 	const [rating, setRating] = useState(0);
+	const [inBasket, setInBasket] = useState(false);
 	const { id } = useParams();
 
 	useEffect(() => {
@@ -30,6 +36,8 @@ const DevicePage = () => {
 			fetchRatingByUserAndDevice(user.user.id, id).then((data) =>
 				setRating(data)
 			);
+
+			checkDeviceInBasket(id, user.user.id).then((data) => setInBasket(data));
 		}
 	}, [rating]);
 
@@ -41,6 +49,19 @@ const DevicePage = () => {
 			(data) => setRating(data.rating)
 		);
 		setRating(star);
+	};
+
+	const addInBasket = () => {
+		if (!user.user.id) {
+			return;
+		}
+		if (inBasket) {
+			deleteDeviceFromBasket(id, user.user.id).then((data) =>
+				setInBasket(data)
+			);
+		} else {
+			addDeviceToBasket(id, user.user.id).then((data) => setInBasket(data));
+		}
 	};
 
 	return (
@@ -101,7 +122,9 @@ const DevicePage = () => {
 						}}
 					>
 						<h3>От: {device.price} руб.</h3>
-						<Button variant={'outline-dark'}>Добавить в корзину</Button>
+						<Button onClick={() => addInBasket()} variant={'outline-dark'}>
+							{inBasket ? 'В корзине' : 'Добавить в корзину'}
+						</Button>
 					</Card>
 				</Col>
 			</Row>

@@ -21,6 +21,7 @@ const AppRouter = observer(() => {
 			{publicRoutes.map(({ path, component }) => (
 				<Route key={path} path={path} Component={component} exact />
 			))}
+
 			<Route path='*' key={'*'} element={<Navigate to='/' replace />} />
 		</Routes>
 	);

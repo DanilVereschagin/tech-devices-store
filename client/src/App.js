@@ -15,7 +15,11 @@ const App = observer(() => {
 		check()
 			.then((data) => {
 				user.setUser(data);
-				user.setIsAuth(true);
+				if (data === null) {
+					user.setIsAuth(false);
+				} else {
+					user.setIsAuth(true);
+				}
 			})
 			.finally(() => setLoading(false));
 	}, []);
