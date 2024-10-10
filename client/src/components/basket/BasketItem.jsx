@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { fetchDeviceById, fetchBrandById } from '../../http/deviceAPI';
+import { fetchBrandById } from '../../http/deviceAPI';
 import { DEVICE_ROUTE } from '../../utils/consts';
 import star from '../../assets/star.png';
 import { useNavigate } from 'react-router-dom';
 import { Col, Card, Image, Button } from 'react-bootstrap';
 import classes from './Basket.module.css';
+import { deleteDeviceFromBasket } from '../../http/basketAPI';
 
-const BasketItem = ({ deviceId, calculateTotalPrice }) => {
+const BasketItem = ({ device, user, basket }) => {
 	const history = useNavigate();
 	const [brand, setBrand] = useState('');
-	const [device, setDevice] = useState({});
-
-	useEffect(() => {
-		fetchDeviceById(deviceId).then((data) => setDevice(data));
-	}, []);
 
 	useEffect(() => {
 		if (!device) {
 			return;
 		}
 		fetchBrandById(device.brandId).then((data) => setBrand(data.name));
-		calculateTotalPrice(device.price);
-	}, [device]);
+	}, []);
+
+	const deleteFromBasket = () => {
+		basket.deleteDevice(device);
+		basket.deleteFromBasket(device.id);
+		basket.setPrice(basket.price - device.price);
+		try {
+			deleteDeviceFromBasket(device.id, user.user.id).then();
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	return (
 		<div className={classes.basketItem}>
@@ -51,8 +57,9 @@ const BasketItem = ({ deviceId, calculateTotalPrice }) => {
 				</Card>
 			</Col>
 			<div className={classes.buttons}>
-				<Button variant='danger'>Удалить</Button>
-				<Button className='ms-2'>Купить</Button>
+				<Button onClick={deleteFromBasket} variant='danger'>
+					Удалить
+				</Button>
 			</div>
 		</div>
 	);

@@ -1,39 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import BasketItem from './BasketItem';
-import { fetchBasketByUser } from '../../http/basketAPI';
-import { Context } from '../../index';
+import classes from './Basket.module.css';
 
-const BasketList = observer(() => {
-	const { user } = useContext(Context);
-	const [devices, setDevices] = useState([]);
-	const [totalPrice, setTotalPrice] = useState(0);
-
-	useEffect(() => {
-		fetchBasketByUser(user.user.id).then((data) => setDevices(data));
-	}, []);
-
-	const calculateTotalPrice = (price) => {
-		if (!price) {
-			return;
-		}
-		setTotalPrice(totalPrice + price);
-	};
-
+const BasketList = observer(({ devices, user, basket }) => {
 	return (
 		<>
-			<h1 className='text-center'>Корзина</h1>
-			<div>
+			<div className={classes.basketList}>
 				{devices.map((device) => (
 					<BasketItem
-						key={device.deviceId}
-						deviceId={device.deviceId}
-						calculateTotalPrice={calculateTotalPrice}
+						key={device.id}
+						device={device}
+						user={user}
+						basket={basket}
 					/>
 				))}
-			</div>
-			<div>
-				<h1>{totalPrice}</h1>
 			</div>
 		</>
 	);

@@ -7,7 +7,6 @@ export const checkDeviceInBasket = async (deviceId, userId) => {
 			userId,
 		},
 	});
-	console.log(data);
 	return data;
 };
 

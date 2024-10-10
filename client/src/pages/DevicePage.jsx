@@ -22,9 +22,11 @@ import {
 } from '../http/basketAPI';
 import { useParams } from 'react-router-dom';
 import { Context } from '../index';
+import { observer } from 'mobx-react-lite';
 
-const DevicePage = () => {
+const DevicePage = observer(() => {
 	const { user } = useContext(Context);
+	const { basket } = useContext(Context);
 	const [device, setDevice] = useState({ info: [] });
 	const [rating, setRating] = useState(0);
 	const [inBasket, setInBasket] = useState(false);
@@ -59,8 +61,13 @@ const DevicePage = () => {
 			deleteDeviceFromBasket(id, user.user.id).then((data) =>
 				setInBasket(data)
 			);
+			basket.deleteDevice(device);
+			basket.deleteFromBasket(device.id);
+			basket.setPrice(basket.price - device.price);
 		} else {
 			addDeviceToBasket(id, user.user.id).then((data) => setInBasket(data));
+			basket.addDevice(device);
+			basket.setPrice(basket.price + device.price);
 		}
 	};
 
@@ -144,6 +151,6 @@ const DevicePage = () => {
 			</Row>
 		</Container>
 	);
-};
+});
 
 export default DevicePage;
