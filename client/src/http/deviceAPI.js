@@ -53,12 +53,13 @@ export const fetchDeviceById = async (id) => {
 };
 
 export const createRating = async (rating) => {
-	const { data } = await $host.post('api/rating', rating);
+	console.log(1);
+	const { data } = await $authHost.post('api/rating', rating);
 	return data;
 };
 
 export const fetchRatingByUserAndDevice = async (userId, deviceId) => {
-	const { data } = await $host.get('api/rating/', {
+	const { data } = await $authHost.get('api/rating', {
 		params: {
 			userId,
 			deviceId,
